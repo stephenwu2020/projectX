@@ -1,0 +1,91 @@
+package com.ss.pb.proto;
+//import "option.proto";
+
+// ============================= 登录系统  =============================
+
+message Result{
+    optional uint32 result = 1;         // 结果值 1成功 | 其他数值参考错误码
+    repeated string param = 2;          // 消息参数
+    optional uint32 type = 3;       	// 1-飘字，2-弹框
+}
+
+message Server_Info{
+	optional uint32 sid = 1;			// 服务器ID
+	optional string sname = 2;			// 服务器名称
+	optional string host = 3;			// 服务器地址
+	optional uint32 port = 4;			// 服务器端口号
+	optional uint32 uid = 5;			// 该服角色ID, 0表示无角色
+	optional string key = 6;			// 登录安全key
+	optional uint32 state = 7;			// 服务器状态   (正常,爆满,维护)
+}
+
+//=================================CS============================================
+
+
+// 错误码通用
+message Sc_10010000{
+        optional Result result = 1;        // 返回结果
+
+}
+
+//登陆游戏
+message Cs_10010001{
+        optional uint32 uuid = 1;  			// 账号ID
+        optional uint32 uid = 2;			// 角色ID
+        optional uint32 cid = 3;            // 渠道ID
+        optional uint32 sid = 4;            // 服务器ID
+        optional uint32 key_time = 5;       // 登录安全验证时间
+        optional string key = 6;			// 登录安全key
+}
+
+message Sc_10010001{
+        optional bool login_result = 1;   	// false-需要创建角色，true-登录成功
+}
+
+// 创建角色(必须先登录,再创角色)
+message Cs_10010002{
+    optional string uname = 1;           	// 昵称
+    optional uint32 sex = 2;                // 性别1-男性，2-女性
+}
+// 创建成功返回
+message Sc_10010002{
+	optional uint32 uid = 1;			// 角色ID 登录成功
+}
+
+
+// 心跳包
+//message Cs_10010003{
+//
+//}
+
+// 服务器时间校正
+message Sc_10010003{
+    optional uint32 time = 1;              // 服务器时间戳
+}
+
+// 请求服务器列表
+message Cs_10010004{
+    optional string sdk_uuid = 1;              // SDK登录成功后的用户ID
+    optional uint32 cid = 2;              	   // 渠道ID
+    optional string login_token = 3;		   // SDK登录标记
+}
+
+// 请求服务器列表
+message Sc_10010004{
+    optional uint32 uuid = 1;              	   	   // 用户账号ID
+    optional uint32 key_time = 2;              	   // 登录安全验证时间
+    repeated Server_Info server_info = 3;           // 服务器信息列表
+}
+
+// 登录成功后上报数据
+message Cs_10010005{
+	optional uint32 os_type = 1;					// 系统类型 CONST_SYS_OS_TYPE_*
+}
+// 服务端报错/断线重连
+//message Sc_10010005{
+//
+//}
+
+
+
+

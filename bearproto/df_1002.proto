@@ -1,0 +1,97 @@
+package com.ss.pb.proto;
+//import "option.proto";
+
+
+// ============================= 背包系统 =============================
+
+message PItem {
+    optional int32 idx = 1;         // 容器位置索引
+    optional uint32 item_id = 2;    // 物品ID
+    optional uint32 count = 3;      // 物品数量 (用作刷新时 为0的情况, 清空该位置的物品)
+}
+
+message P_Reward2 {
+    optional uint32 item_id = 1;    // 物品ID
+    optional uint32 obj_id = 2;     // 对象ID(可能没有对象,没有时为0)
+    optional uint32 count = 3;      // 物品数量
+}
+
+message P_Reward2_List {
+    repeated P_Reward2 reward2 = 1; // 归类好的物品列表
+}
+
+message P_Bag_Limit{
+	optional uint32 bag_type	= 1; // 背包类型
+	optional uint32 limit		= 2; // 容量上限
+}
+
+//=================================CS============================================
+
+
+// 登录发送背包类型信息
+message Sc_10020000{
+	repeated P_Bag_Limit bag_limits = 1;	// 背包类型信息
+}
+
+// 获取背包物品列表
+message Cs_10020001{
+	optional uint32 bag_type	= 1;		// 背包类型
+}
+message Sc_10020001{
+	optional uint32 bag_type	= 1;		// 背包类型
+    repeated PItem items 		= 2;        // 物品的列表
+}
+
+// 使用物品
+message Cs_10020002{
+	optional uint32 bag_type = 1;		// 背包类型
+    optional int32 idx = 2;    		// 容器位置索引
+    optional uint32 obj_id = 3;     	// 对象ID
+    optional uint32 count = 4;      	// 使用数量
+}
+// 物品列表刷新
+message Sc_10020002{
+    optional uint32 bag_type	= 1;		// 背包类型
+    repeated PItem items 		= 2;        // 物品的列表
+}
+
+// 礼包拆解效果
+message Sc_10020003{
+	repeated P_Reward2_List reward2_list = 1; // 效果物品列表
+}
+
+// 改名(需要消耗一张改名卡)
+message Cs_10020004{
+	optional string uname = 1;
+}
+message Sc_10020004{
+	optional string uname = 1;
+}
+
+// 出售物品
+message Cs_10020005{
+	optional uint32 bag_type 	= 1;	// 背包类型
+	repeated PItem sell_items	= 2;	// 出售物品列表
+	optional uint32 asyn_flag 	= 3;	// 异步标识(发什么回什么)
+}
+// 出售成功
+message Sc_10020005{
+	optional uint32 bag_type 	= 1;	// 背包类型
+	repeated PItem sell_items	= 2;	// 出售物品列表
+	optional uint32 asyn_flag 	= 3;	// 异步标识(发什么回什么)
+	repeated P_Reward2 reward	= 4;	// 出售后获取的物品列表
+}
+
+// 更改性别
+message Cs_10020006{
+	optional uint32 sex			= 1;	// 性别
+}
+// 更改性别成功
+message Sc_10020006{
+	optional uint32 sex			= 1;	// 性别
+}
+
+
+
+
+
