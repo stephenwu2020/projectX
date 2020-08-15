@@ -10,20 +10,21 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var createRoleCmd = &cobra.Command{
-	Use:   "createRole",
+var roleCmd = &cobra.Command{
+	Use:   "role",
 	Short: "send create role message to bear",
 	Run: func(cmd *cobra.Command, args []string) {
-		createRole()
+		role()
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(createRoleCmd)
+	rootCmd.AddCommand(roleCmd)
 }
 
-func createRole() {
-	conn, err := net.Dial("tcp", "127.0.0.1:3563")
+func role() {
+	fmt.Println("Simulate role proto")
+	conn, err := net.Dial("tcp", ip)
 	if err != nil {
 		log.Fatal("connect failed", err)
 	}
@@ -58,6 +59,7 @@ func createRole() {
 	if err != nil {
 		log.Fatal("read error:", err)
 	}
+	fmt.Println("Sended Reqest:", &msg)
 
 	recv := &com_ss_pb_proto.Sc_10010002{}
 	err = proto.Unmarshal(buf[lenOfLen+lenOfMsgId:n], recv)
@@ -65,5 +67,5 @@ func createRole() {
 		log.Fatal("unmarshaling error: ", err)
 	}
 
-	fmt.Println("Rece create role response, uid is:", recv.GetUid())
+	fmt.Println("Received response", recv)
 }

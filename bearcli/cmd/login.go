@@ -23,7 +23,8 @@ func init() {
 }
 
 func login() {
-	conn, err := net.Dial("tcp", "127.0.0.1:3563")
+	fmt.Println("Simulate login proto")
+	conn, err := net.Dial("tcp", ip)
 	if err != nil {
 		log.Fatal("connect failed", err)
 	}
@@ -51,6 +52,7 @@ func login() {
 	if err != nil {
 		log.Fatal("Write failed", err)
 	}
+	fmt.Println("Sended Reqest:", &login)
 
 	// rece
 	buf := make([]byte, 32)
@@ -65,5 +67,5 @@ func login() {
 		log.Fatal("unmarshaling error: ", err)
 	}
 
-	fmt.Println("Rece login response, res is:", recv.GetLoginResult())
+	fmt.Println("Received response", recv)
 }
