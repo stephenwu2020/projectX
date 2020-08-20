@@ -61,7 +61,6 @@ func (p *Processor) Register(id uint32, msg proto.Message) (uint32, error) {
 	return id, nil
 }
 
-// It's dangerous to call the method on routing or marshaling (unmarshaling)
 func (p *Processor) SetRouter(msg proto.Message, msgRouter *chanrpc.Server) error {
 	msgType := reflect.TypeOf(msg)
 	id, ok := p.msgID[msgType]
@@ -73,7 +72,6 @@ func (p *Processor) SetRouter(msg proto.Message, msgRouter *chanrpc.Server) erro
 	return nil
 }
 
-// goroutine safe
 func (p *Processor) Route(msg interface{}, userData interface{}) error {
 	msgType := reflect.TypeOf(msg)
 	id, ok := p.msgID[msgType]
@@ -87,9 +85,7 @@ func (p *Processor) Route(msg interface{}, userData interface{}) error {
 	return nil
 }
 
-// goroutine safe
 func (p *Processor) Unmarshal(data []byte) (interface{}, error) {
-	// id
 	var id uint32
 	if p.littleEndian {
 		id = binary.LittleEndian.Uint32(data)
@@ -97,7 +93,6 @@ func (p *Processor) Unmarshal(data []byte) (interface{}, error) {
 		id = binary.BigEndian.Uint32(data)
 	}
 
-	// msg
 	msgInfo, ok := p.msgInfo[id]
 	if !ok {
 		return nil, fmt.Errorf("message id %v not registered", id)
@@ -107,7 +102,6 @@ func (p *Processor) Unmarshal(data []byte) (interface{}, error) {
 	}
 }
 
-// goroutine safe
 func (p *Processor) Marshal(msg interface{}) ([][]byte, error) {
 	smsg := msg.(*MsgWithID)
 	id := make([]byte, 4)
