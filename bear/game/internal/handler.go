@@ -2,8 +2,8 @@ package internal
 
 import (
 	"bear/com_ss_pb_proto"
-	"bear/encode"
 	"bear/msg"
+	"bear/msgprocessor"
 	"reflect"
 
 	"github.com/name5566/leaf/gate"
@@ -25,7 +25,7 @@ func handleLogin(args []interface{}) {
 	log.Debug("Rece login request, uuid is: %v", m.GetUuid())
 	res := true
 
-	smsg := encode.ServerMsg{
+	smsg := msgprocessor.MsgWithID{
 		MsgID: msg.P1001_LOGIN,
 		Msg:   &com_ss_pb_proto.Sc_10010001{LoginResult: &res},
 	}
@@ -38,7 +38,7 @@ func handleCreateRole(args []interface{}) {
 	log.Debug("Rece create role request, uname is: %v", m.GetUname())
 
 	var uid uint32 = 12345678
-	smsg := encode.ServerMsg{
+	smsg := msgprocessor.MsgWithID{
 		MsgID: msg.P1001_Create_Role,
 		Msg:   &com_ss_pb_proto.Sc_10010002{Uid: &uid},
 	}

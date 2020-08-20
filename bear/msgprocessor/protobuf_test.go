@@ -1,4 +1,4 @@
-package encode
+package msgprocessor
 
 import "testing"
 
