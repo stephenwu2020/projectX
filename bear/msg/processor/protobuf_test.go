@@ -1,4 +1,4 @@
-package msgprocessor
+package processor
 
 import "testing"
 
