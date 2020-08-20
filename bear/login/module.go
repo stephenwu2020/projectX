@@ -1,4 +1,4 @@
-package internal
+package login
 
 import (
 	"bear/base"
@@ -9,16 +9,17 @@ import (
 var (
 	skeleton = base.NewSkeleton()
 	ChanRPC  = skeleton.ChanRPCServer
+	Module   = new(LoginModule)
 )
 
-type Module struct {
+type LoginModule struct {
 	*module.Skeleton
 }
 
-func (m *Module) OnInit() {
+func (m *LoginModule) OnInit() {
 	m.Skeleton = skeleton
 }
 
-func (m *Module) OnDestroy() {
+func (m *LoginModule) OnDestroy() {
 
 }
