@@ -11,6 +11,7 @@ import (
 
 func TestCreateRole(t *testing.T) {
 	fmt.Println("Simulate role proto")
+
 	conn, err := net.Dial("tcp", ip)
 	if err != nil {
 		t.Fatal("connect failed", err)
