@@ -1,4 +1,4 @@
-package internal
+package gate
 
 import (
 	"bear/conf"
@@ -8,11 +8,15 @@ import (
 	"github.com/name5566/leaf/gate"
 )
 
-type Module struct {
+var (
+	Module = new(GateModule)
+)
+
+type GateModule struct {
 	*gate.Gate
 }
 
-func (m *Module) OnInit() {
+func (m *GateModule) OnInit() {
 	m.Gate = &gate.Gate{
 		MaxConnNum:      conf.Server.MaxConnNum,
 		PendingWriteNum: conf.PendingWriteNum,
