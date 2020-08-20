@@ -1,4 +1,4 @@
-package internal
+package game
 
 import (
 	"bear/base"
@@ -9,16 +9,17 @@ import (
 var (
 	skeleton = base.NewSkeleton()
 	ChanRPC  = skeleton.ChanRPCServer
+	Module   = new(GameModule)
 )
 
-type Module struct {
+type GameModule struct {
 	*module.Skeleton
 }
 
-func (m *Module) OnInit() {
+func (m *GameModule) OnInit() {
 	m.Skeleton = skeleton
 }
 
-func (m *Module) OnDestroy() {
+func (m *GameModule) OnDestroy() {
 
 }

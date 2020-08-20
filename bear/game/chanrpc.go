@@ -1,4 +1,4 @@
-package internal
+package game
 
 import (
 	"github.com/name5566/leaf/gate"
