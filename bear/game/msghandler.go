@@ -4,20 +4,10 @@ import (
 	"bear/com_ss_pb_proto"
 	"bear/msg"
 	"bear/msg/processor"
-	"reflect"
 
 	"github.com/name5566/leaf/gate"
 	"github.com/name5566/leaf/log"
 )
-
-func init() {
-	handler(&com_ss_pb_proto.Cs_10010001{}, handleLogin)
-	handler(&com_ss_pb_proto.Cs_10010002{}, handleCreateRole)
-}
-
-func handler(m interface{}, h interface{}) {
-	skeleton.RegisterChanRPC(reflect.TypeOf(m), h)
-}
 
 func handleLogin(args []interface{}) {
 	m := args[0].(*com_ss_pb_proto.Cs_10010001)
