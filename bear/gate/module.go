@@ -8,10 +8,6 @@ import (
 	"github.com/name5566/leaf/gate"
 )
 
-var (
-	Module = new(GateModule)
-)
-
 type GateModule struct {
 	*gate.Gate
 }

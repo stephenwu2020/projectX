@@ -1,15 +1,7 @@
 package login
 
 import (
-	"bear/base"
-
 	"github.com/name5566/leaf/module"
-)
-
-var (
-	skeleton = base.NewSkeleton()
-	ChanRPC  = skeleton.ChanRPCServer
-	Module   = new(LoginModule)
 )
 
 type LoginModule struct {

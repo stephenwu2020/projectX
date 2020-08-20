@@ -18,7 +18,6 @@ func init() {
 	skeleton.RegisterChanRPC("NewAgent", rpcNewAgent)
 	skeleton.RegisterChanRPC("CloseAgent", rpcCloseAgent)
 
-	setMsghandler(&com_ss_pb_proto.Cs_10010001{}, handleLogin)
 	setMsghandler(&com_ss_pb_proto.Cs_10010002{}, handleCreateRole)
 }
 
