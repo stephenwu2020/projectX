@@ -9,6 +9,7 @@ import (
 
 	"github.com/name5566/leaf"
 	lconf "github.com/name5566/leaf/conf"
+	log "github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -17,6 +18,8 @@ func init() {
 	lconf.LogFlag = conf.LogFlag
 	lconf.ConsolePort = conf.ConsolePort
 	lconf.ProfilePath = conf.ProfilePath
+
+	log.SetLevel(log.DebugLevel)
 }
 
 func main() {
