@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/name5566/leaf/log"
 	"github.com/name5566/leaf/module"
 	"github.com/pkg/errors"
+	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -24,7 +24,7 @@ func (m *DBModule) OnInit() {
 	if err := m.Ping(); err != nil {
 		log.Fatal("Database ping fail: %s", err)
 	}
-	log.Debug("Database connect success!")
+	log.Info("Database connect success!")
 	register()
 }
 
@@ -32,7 +32,7 @@ func (m *DBModule) OnDestroy() {
 	if err := m.disconnect(); err != nil {
 		panic(err)
 	}
-	log.Debug("Database disconnected")
+	log.Info("Database disconnected")
 }
 
 func (m *DBModule) Ping() error {

@@ -23,13 +23,13 @@ var (
 	ChanRPCLen         = 10000
 
 	// server conf
-	LogLevel    = "debug"
-	LogPath     = ""
-	WSAddr      string
-	CertFile    string
-	KeyFile     string
-	TCPAddr     = "0.0.0.0:3563"
-	MaxConnNum  = 20000
-	ConsolePort int
-	ProfilePath string
+	LeafLogLevel = "release"
+	LeafLogPath  = ""
+	WSAddr       string
+	CertFile     string
+	KeyFile      string
+	TCPAddr      = "0.0.0.0:3563"
+	MaxConnNum   = 20000
+	ConsolePort  int
+	ProfilePath  string
 )

@@ -6,13 +6,13 @@ import (
 	"bear/msg/processor"
 
 	"github.com/name5566/leaf/gate"
-	"github.com/name5566/leaf/log"
+	log "github.com/sirupsen/logrus"
 )
 
 func handleCreateRole(args []interface{}) {
 	m := args[0].(*com_ss_pb_proto.Cs_10010002)
 	a := args[1].(gate.Agent)
-	log.Debug("Rece create role request, uname is: %v", m.GetUname())
+	log.Info("Rece create role request, uname is: %v", m.GetUname())
 
 	var uid uint32 = 12345678
 	smsg := processor.MsgWithID{
