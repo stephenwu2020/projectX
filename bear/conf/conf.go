@@ -21,4 +21,15 @@ var (
 	TimerDispatcherLen = 10000
 	AsynCallLen        = 10000
 	ChanRPCLen         = 10000
+
+	// server conf
+	LogLevel    = "debug"
+	LogPath     = ""
+	WSAddr      string
+	CertFile    string
+	KeyFile     string
+	TCPAddr     = "0.0.0.0:3563"
+	MaxConnNum  = 20000
+	ConsolePort int
+	ProfilePath string
 )

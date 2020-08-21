@@ -103,7 +103,10 @@ func (p *Processor) Unmarshal(data []byte) (interface{}, error) {
 }
 
 func (p *Processor) Marshal(msg interface{}) ([][]byte, error) {
-	smsg := msg.(*MsgWithID)
+	smsg, ok := msg.(*MsgWithID)
+	if !ok {
+		return nil, errors.New("nil message found")
+	}
 	id := make([]byte, 4)
 	if p.littleEndian {
 		binary.LittleEndian.PutUint32(id, smsg.MsgID)

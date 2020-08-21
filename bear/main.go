@@ -11,11 +11,11 @@ import (
 )
 
 func main() {
-	lconf.LogLevel = conf.Server.LogLevel
-	lconf.LogPath = conf.Server.LogPath
+	lconf.LogLevel = conf.LogLevel
+	lconf.LogPath = conf.LogPath
 	lconf.LogFlag = conf.LogFlag
-	lconf.ConsolePort = conf.Server.ConsolePort
-	lconf.ProfilePath = conf.Server.ProfilePath
+	lconf.ConsolePort = conf.ConsolePort
+	lconf.ProfilePath = conf.ProfilePath
 
 	leaf.Run(
 		game.Module,

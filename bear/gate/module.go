@@ -14,14 +14,14 @@ type GateModule struct {
 
 func (m *GateModule) OnInit() {
 	m.Gate = &gate.Gate{
-		MaxConnNum:      conf.Server.MaxConnNum,
+		MaxConnNum:      conf.MaxConnNum,
 		PendingWriteNum: conf.PendingWriteNum,
 		MaxMsgLen:       conf.MaxMsgLen,
-		WSAddr:          conf.Server.WSAddr,
+		WSAddr:          conf.WSAddr,
 		HTTPTimeout:     conf.HTTPTimeout,
-		CertFile:        conf.Server.CertFile,
-		KeyFile:         conf.Server.KeyFile,
-		TCPAddr:         conf.Server.TCPAddr,
+		CertFile:        conf.CertFile,
+		KeyFile:         conf.KeyFile,
+		TCPAddr:         conf.TCPAddr,
 		LenMsgLen:       conf.LenMsgLen,
 		LittleEndian:    conf.LittleEndian,
 		Processor:       msg.Processor,
