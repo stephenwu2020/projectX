@@ -2,6 +2,7 @@ package main
 
 import (
 	"bear/conf"
+	"bear/db"
 	"bear/game"
 	"bear/gate"
 	"bear/login"
@@ -18,6 +19,7 @@ func main() {
 	lconf.ProfilePath = conf.ProfilePath
 
 	leaf.Run(
+		db.Module,
 		game.Module,
 		gate.Module,
 		login.Module,
