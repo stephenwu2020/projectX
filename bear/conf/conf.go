@@ -32,7 +32,4 @@ var (
 	MaxConnNum  = 20000
 	ConsolePort int
 	ProfilePath string
-
-	// database conf
-	DBURI = "mongodb://localhost:27017"
 )
