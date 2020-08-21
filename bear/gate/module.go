@@ -1,8 +1,10 @@
 package gate
 
 import (
+	"bear/com_ss_pb_proto"
 	"bear/conf"
 	"bear/game"
+	"bear/login"
 	"bear/msg"
 
 	"github.com/name5566/leaf/gate"
@@ -27,4 +29,10 @@ func (m *GateModule) OnInit() {
 		Processor:       msg.Processor,
 		AgentChanRPC:    game.ChanRPC,
 	}
+	m.route()
+}
+
+func (m *GateModule) route() {
+	msg.Processor.SetRouter(&com_ss_pb_proto.Cs_10010001{}, login.ChanRPC)
+	msg.Processor.SetRouter(&com_ss_pb_proto.Cs_10010002{}, game.ChanRPC)
 }
