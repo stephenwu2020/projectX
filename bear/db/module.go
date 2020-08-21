@@ -15,7 +15,6 @@ import (
 
 type DBModule struct {
 	*module.Skeleton
-	client *mongo.Client
 }
 
 func (m *DBModule) OnInit() {
@@ -27,6 +26,7 @@ func (m *DBModule) OnInit() {
 		log.Fatal("Database ping fail: %s", err)
 	}
 	log.Debug("Database connect success!")
+	register()
 }
 
 func (m *DBModule) OnDestroy() {
@@ -39,17 +39,17 @@ func (m *DBModule) OnDestroy() {
 func (m *DBModule) Ping() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
-	return m.client.Ping(ctx, readpref.Primary())
+	return client.Ping(ctx, readpref.Primary())
 }
 
 func (m *DBModule) connect() error {
+	var err error
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(conf.DBURI))
+	client, err = mongo.Connect(ctx, options.Client().ApplyURI(conf.DBURI))
 	if err != nil {
 		return errors.WithMessage(err, "Connect mongodb failed")
 	}
-	m.client = client
 
 	return nil
 }
@@ -57,7 +57,7 @@ func (m *DBModule) connect() error {
 func (m *DBModule) disconnect() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	if err := m.client.Disconnect(ctx); err != nil {
+	if err := client.Disconnect(ctx); err != nil {
 		return errors.WithMessage(err, "Disconnect mongodb failed")
 	}
 	return nil

@@ -2,6 +2,7 @@ package login
 
 import (
 	"bear/com_ss_pb_proto"
+	"bear/db"
 	"bear/msg"
 	"bear/msg/processor"
 
@@ -14,6 +15,17 @@ func handleLogin(args []interface{}) {
 	a := args[1].(gate.Agent)
 	log.Debug("Rece login request, uuid is: %v", m.GetUuid())
 	res := true
+
+	hellores, _ := db.ChanRPC.Call1("hello")
+	log.Debug("call hello res: %s", hellores)
+
+	dbres, _ := db.ChanRPC.CallN("getLoginData", "123")
+	if err := dbres[1].(error); err != nil {
+		log.Error("call db method failed: %s", err)
+	} else {
+		loginres := dbres[0]
+		log.Debug("call db res: %v", loginres)
+	}
 
 	smsg := processor.MsgWithID{
 		MsgID: msg.P1001_LOGIN,

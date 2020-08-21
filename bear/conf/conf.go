@@ -34,6 +34,5 @@ var (
 	ProfilePath string
 
 	// database conf
-	DBURI  = "mongodb://localhost:27017"
-	DBName = "bear"
+	DBURI = "mongodb://localhost:27017"
 )
