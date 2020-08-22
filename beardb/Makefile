@@ -1,6 +1,8 @@
 .PHONY: up
 up:
-	docker-compose up -d
+	docker-compose up -d mongodb
+	sleep 10
+	docker-compose up -d mongo-express
 	docker ps
 
 .PHONY: down
