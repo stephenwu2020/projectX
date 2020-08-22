@@ -1,6 +1,7 @@
 package db
 
 import (
+	"bear/db/conf"
 	"context"
 	"time"
 
@@ -45,7 +46,7 @@ func (m *DBModule) connect() error {
 	var err error
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	client, err = mongo.Connect(ctx, options.Client().ApplyURI(DBURI))
+	client, err = mongo.Connect(ctx, options.Client().ApplyURI(conf.DBURI))
 	if err != nil {
 		return errors.WithMessage(err, "Connect mongodb failed")
 	}
