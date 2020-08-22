@@ -23,7 +23,7 @@ func handleLogin(args []interface{}) {
 	if err := dbres[1]; err != nil {
 		log.Error("call db method failed: %s", err)
 	} else {
-		users, ok := dbres[0].(collections.Users)
+		users, ok := dbres[0].(*collections.Users)
 		if !ok {
 			log.Error("assertion users fail")
 		} else if users.Uid == uid {

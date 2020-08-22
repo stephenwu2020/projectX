@@ -12,11 +12,11 @@ import (
 
 func createRole(conn net.Conn, name *string, sex *uint32) error {
 	// send
-	msg := com_ss_pb_proto.Cs_10010002{
+	msg := &com_ss_pb_proto.Cs_10010002{
 		Uname: name,
 		Sex:   sex,
 	}
-	data, err := proto.Marshal(&msg)
+	data, err := proto.Marshal(msg)
 	if err != nil {
 		return errors.WithMessage(err, "Marshal fail")
 	}
@@ -36,7 +36,7 @@ func createRole(conn net.Conn, name *string, sex *uint32) error {
 	if err = proto.Unmarshal(buf[lenOfLen+lenOfMsgId:n], recv); err != nil {
 		return errors.WithMessage(err, "Unmarshal fail")
 	}
-	log.Infof("Sended:%+v - Received:%+v", &msg, recv)
+	log.Infof("Sended:%+v - Received:%+v", msg, recv)
 	return nil
 }
 
