@@ -10,6 +10,29 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
+func TestCreateRole(t *testing.T) {
+	conn, err := net.Dial("tcp", ip)
+	if err != nil {
+		t.Fatal("connect failed", err)
+	}
+	defer conn.Close()
+
+	var users = []struct {
+		name string
+		sex  uint32
+	}{
+		{"Tom", 1},
+		{"David", 2},
+	}
+	for _, user := range users {
+		t.Run("CreateRole", func(t *testing.T) {
+			if err := createRole(conn, &user.name, &user.sex); err != nil {
+				t.Error("Create role fail", err)
+			}
+		})
+	}
+}
+
 func createRole(conn net.Conn, name *string, sex *uint32) error {
 	// send
 	msg := &com_ss_pb_proto.Cs_10010002{
@@ -38,24 +61,4 @@ func createRole(conn net.Conn, name *string, sex *uint32) error {
 	}
 	log.Infof("Sended:%+v - Received:%+v", msg, recv)
 	return nil
-}
-
-func TestCreateRole(t *testing.T) {
-	conn, err := net.Dial("tcp", ip)
-	if err != nil {
-		t.Fatal("connect failed", err)
-	}
-	defer conn.Close()
-	var (
-		name        = "Tom"
-		sex  uint32 = 1
-	)
-	if err := createRole(conn, &name, &sex); err != nil {
-		t.Error("Create role failed", err)
-	}
-	name = "David"
-	sex = 2
-	if err := createRole(conn, &name, &sex); err != nil {
-		t.Error("Create role failed", err)
-	}
 }

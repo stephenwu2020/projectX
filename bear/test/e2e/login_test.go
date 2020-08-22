@@ -16,17 +16,13 @@ func TestLogin(t *testing.T) {
 		t.Fatal("connect failed", err)
 	}
 	defer conn.Close()
-	var uid uint32 = 4005096660
-	if err := login(conn, &uid); err != nil {
-		t.Error("Login fail", err)
-	}
-	uid = 488719350
-	if err := login(conn, &uid); err != nil {
-		t.Error("Login fail", err)
-	}
-	uid = 123
-	if err := login(conn, &uid); err != nil {
-		t.Error("Login fail", err)
+	uids := []uint32{4005096660, 488719350, 123}
+	for _, uid := range uids {
+		t.Run("Login", func(t *testing.T) {
+			if err := login(conn, &uid); err != nil {
+				t.Error("Login fail", err)
+			}
+		})
 	}
 }
 
