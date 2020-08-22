@@ -19,8 +19,9 @@ func handleCreateRole(args []interface{}) {
 		ok  bool
 	)
 
-	dbres, _ := db.ChanRPC.CallN(db.GET_LOGIN_DATA, message.GetUname(), message.GetSex())
-	if err := dbres[1].(error); err != nil {
+	dbres, _ := db.ChanRPC.CallN(db.CREATE_ROLE, message.GetUname(), message.GetSex())
+	log.Debug(dbres, dbres[0], dbres[1])
+	if err := dbres[1]; err != nil {
 		log.Error("create role fail", err)
 	} else {
 		uid, ok = dbres[0].(uint32)

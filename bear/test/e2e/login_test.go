@@ -17,7 +17,7 @@ func TestLogin(t *testing.T) {
 	}
 	defer conn.Close()
 
-	var uuid uint32 = 123
+	var uuid uint32 = 2124314313
 	login := com_ss_pb_proto.Cs_10010001{
 		Uuid: &uuid,
 	}
