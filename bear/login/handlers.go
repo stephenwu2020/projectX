@@ -11,11 +11,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func handleHello(args []interface{}) {
-	hellores, _ := db.ChanRPC.Call1("hello")
-	log.Debug("call hello res: %s", hellores)
-}
-
 func handleLogin(args []interface{}) {
 	message := args[0].(*com_ss_pb_proto.Cs_10010001)
 	agent := args[1].(gate.Agent)
@@ -23,7 +18,7 @@ func handleLogin(args []interface{}) {
 
 	res := false
 
-	dbres, _ := db.ChanRPC.CallN("getLoginData", uid)
+	dbres, _ := db.ChanRPC.CallN(db.GET_LOGIN_DATA, uid)
 
 	if err := dbres[1].(error); err != nil {
 		log.Error("call db method failed: %s", err)

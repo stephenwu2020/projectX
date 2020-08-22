@@ -11,10 +11,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func hello(args []interface{}) interface{} {
-	return "hello"
-}
-
 func getLoginData(args []interface{}) []interface{} {
 	uid, ok := args[0].(uint32)
 	if !ok {
