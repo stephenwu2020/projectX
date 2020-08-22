@@ -18,9 +18,13 @@ func TestCreateRole(t *testing.T) {
 	}
 	defer conn.Close()
 
-	var uname = "Tom"
+	var (
+		uname        = "Tom"
+		sex   uint32 = 1
+	)
 	msg := com_ss_pb_proto.Cs_10010002{
 		Uname: &uname,
+		Sex:   &sex,
 	}
 
 	data, err := proto.Marshal(&msg)

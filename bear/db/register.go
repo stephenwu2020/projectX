@@ -1,9 +1,11 @@
 package db
 
 const (
-	GET_LOGIN_DATA = iota
+	GET_LOGIN_DATA = "getLoginData"
+	CREATE_ROLE    = "createRole"
 )
 
 func register() {
-	skeleton.RegisterChanRPC("getLoginData", getLoginData)
+	skeleton.RegisterChanRPC(GET_LOGIN_DATA, getLoginData)
+	skeleton.RegisterChanRPC(CREATE_ROLE, createRole)
 }

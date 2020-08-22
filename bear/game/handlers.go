@@ -2,6 +2,7 @@ package game
 
 import (
 	"bear/com_ss_pb_proto"
+	"bear/db"
 	"bear/msg"
 	"bear/msg/processor"
 
@@ -10,14 +11,27 @@ import (
 )
 
 func handleCreateRole(args []interface{}) {
-	m := args[0].(*com_ss_pb_proto.Cs_10010002)
-	a := args[1].(gate.Agent)
-	log.Debug("Rece create role request, uname is: %v", m.GetUname())
+	message := args[0].(*com_ss_pb_proto.Cs_10010002)
+	agent := args[1].(gate.Agent)
 
-	var uid uint32 = 12345678
+	var (
+		uid uint32
+		ok  bool
+	)
+
+	dbres, _ := db.ChanRPC.CallN(db.GET_LOGIN_DATA, message.GetUname(), message.GetSex())
+	if err := dbres[1].(error); err != nil {
+		log.Error("create role fail", err)
+	} else {
+		uid, ok = dbres[0].(uint32)
+		if !ok {
+			log.Error("assertion uid fail")
+		}
+	}
+
 	smsg := processor.MsgWithID{
 		MsgID: msg.P1001_Create_Role,
 		Msg:   &com_ss_pb_proto.Sc_10010002{Uid: &uid},
 	}
-	a.WriteMsg(&smsg)
+	agent.WriteMsg(&smsg)
 }
