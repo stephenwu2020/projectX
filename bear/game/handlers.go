@@ -19,7 +19,7 @@ func handleCreateRole(args []interface{}) {
 		ok  bool
 	)
 
-	dbres, _ := db.ChanRPC.CallN(db.CREATE_ROLE, message.GetUname(), message.GetSex())
+	dbres, _ := db.Module.ChanRPCServer.CallN(db.CREATE_ROLE, message.GetUname(), message.GetSex())
 	if err := dbres[1]; err != nil {
 		log.Error("create role fail", err)
 	} else {

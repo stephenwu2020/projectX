@@ -18,7 +18,7 @@ func handleLogin(args []interface{}) {
 
 	res := false
 
-	dbres, _ := db.ChanRPC.CallN(db.GET_LOGIN_DATA, uid)
+	dbres, _ := db.Module.ChanRPCServer.CallN(db.GET_LOGIN_DATA, uid)
 
 	if err := dbres[1]; err != nil {
 		log.Errorf("call db method failed: %s", err)

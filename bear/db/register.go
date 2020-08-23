@@ -6,6 +6,6 @@ const (
 )
 
 func register() {
-	skeleton.RegisterChanRPC(GET_LOGIN_DATA, getLoginData)
-	skeleton.RegisterChanRPC(CREATE_ROLE, createRole)
+	Module.RegisterChanRPC(GET_LOGIN_DATA, getLoginData)
+	Module.RegisterChanRPC(CREATE_ROLE, createRole)
 }

@@ -18,7 +18,7 @@ func getLoginData(args []interface{}) []interface{} {
 	if !ok {
 		return []interface{}{nil, errors.New("uid assertion fail")}
 	}
-	collection := client.Database(conf.DBName).Collection(collections.COLLECTION_USERS)
+	collection := Module.client.Database(conf.DBName).Collection(collections.COLLECTION_USERS)
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 	filter := bson.M{"uid": uid}
@@ -38,7 +38,7 @@ func createRole(args []interface{}) []interface{} {
 	if !ok {
 		return []interface{}{nil, errors.New("sex assertion fail")}
 	}
-	collections := client.Database(conf.DBName).Collection(collections.COLLECTION_USERS)
+	collections := Module.client.Database(conf.DBName).Collection(collections.COLLECTION_USERS)
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 
