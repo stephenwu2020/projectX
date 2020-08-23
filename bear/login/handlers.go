@@ -3,7 +3,6 @@ package login
 import (
 	"bear/com_ss_pb_proto"
 	"bear/db"
-	"bear/db/collections"
 	"bear/msg"
 	"bear/msg/processor"
 
@@ -17,23 +16,20 @@ func handleLogin(args []interface{}) {
 	uid := message.GetUid()
 
 	res := false
-
-	dbres, _ := db.Module.ChanRPCServer.CallN(db.GET_LOGIN_DATA, uid)
-
-	if err := dbres[1]; err != nil {
-		log.Errorf("call db method failed: %s", err)
-	} else {
-		users, ok := dbres[0].(*collections.Users)
-		if !ok {
-			log.Error("assertion users fail")
-		} else if users.Uid == uid {
-			res = true
-		}
-	}
-
 	smsg := processor.MsgWithID{
 		MsgID: msg.P1001_LOGIN,
 		Msg:   &com_ss_pb_proto.Sc_10010001{LoginResult: &res},
+	}
+
+	dbreq := db.Request{
+		Data: []interface{}{uid},
+	}
+	if err := db.Module.Request(db.GET_LOGIN_DATA, &dbreq); err != nil {
+		log.Error("Login fail: %s", err)
+	} else if dbreq.Err != nil {
+		log.Errorf("Login fail: %s", dbreq.Err)
+	} else {
+		res = true
 	}
 	agent.WriteMsg(&smsg)
 }

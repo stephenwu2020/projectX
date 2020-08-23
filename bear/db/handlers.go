@@ -13,20 +13,23 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func getLoginData(args []interface{}) []interface{} {
-	uid, ok := args[0].(uint32)
+func getLoginData(dbreq *Request) {
+	uid, ok := dbreq.Data[0].(uint32)
 	if !ok {
-		return []interface{}{nil, errors.New("uid assertion fail")}
+		dbreq.Err = errors.New("Assert uid faid")
+		return
 	}
+
 	collection := Module.client.Database(conf.DBName).Collection(collections.COLLECTION_USERS)
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 	filter := bson.M{"uid": uid}
 	var result collections.Users
 	if err := collection.FindOne(ctx, filter).Decode(&result); err != nil {
-		return []interface{}{nil, err}
+		dbreq.Err = errors.WithMessage(err, "Find user by uid fail")
+		return
 	}
-	return []interface{}{&result, nil}
+	dbreq.Result = &result
 }
 
 func createRole(args []interface{}) []interface{} {

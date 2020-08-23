@@ -49,6 +49,10 @@ func (m *DBModule) Ping() error {
 	return m.client.Ping(ctx, readpref.Primary())
 }
 
+func (m *DBModule) Request(msgtype string, dbreq *Request) error {
+	return m.ChanRPCServer.Call0(msgtype, dbreq)
+}
+
 func (m *DBModule) connect() error {
 	var err error
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
