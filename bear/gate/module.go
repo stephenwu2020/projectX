@@ -14,8 +14,8 @@ type GateModule struct {
 	*gate.Gate
 }
 
-func (m *GateModule) OnInit() {
-	m.Gate = &gate.Gate{
+func NewGateModule() *GateModule {
+	gate := &gate.Gate{
 		MaxConnNum:      conf.MaxConnNum,
 		PendingWriteNum: conf.PendingWriteNum,
 		MaxMsgLen:       conf.MaxMsgLen,
@@ -29,6 +29,12 @@ func (m *GateModule) OnInit() {
 		Processor:       msg.Processor,
 		AgentChanRPC:    login.Module.ChanRPCServer,
 	}
+	return &GateModule{
+		Gate: gate,
+	}
+}
+
+func (m *GateModule) OnInit() {
 	m.route()
 }
 
