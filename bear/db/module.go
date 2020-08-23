@@ -98,7 +98,7 @@ func (m *DBModule) disconnect() error {
 
 func (m *DBModule) register() {
 	for _, reqhandler := range requests {
-		m.setreq(reqhandler.msgtype, reqhandler.handler)
+		m.setreq(reqhandler.MsgType, reqhandler.Handler)
 	}
 }
 

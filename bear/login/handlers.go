@@ -27,7 +27,7 @@ func handleLogin(args []interface{}) {
 		Collection: db.Module.Collection(dbdata.COLLECTION_USERS),
 		Data:       []interface{}{uid},
 	}
-	if err := db.Module.Request(db.GET_LOGIN_DATA, &dbreq); err != nil {
+	if err := db.Module.Request(req.GET_LOGIN_DATA, &dbreq); err != nil {
 		log.Error("Login fail: %s", err)
 	} else if dbreq.Err != nil {
 		log.Errorf("Login fail: %s", dbreq.Err)

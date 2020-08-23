@@ -22,7 +22,7 @@ func handleCreateRole(args []interface{}) {
 		Collection: db.Module.Collection(dbdata.COLLECTION_USERS),
 		Data:       []interface{}{message.GetUname(), message.GetSex()},
 	}
-	if err := db.Module.Request(db.CREATE_ROLE, dbreq); err != nil {
+	if err := db.Module.Request(req.CREATE_ROLE, dbreq); err != nil {
 		log.Errorf("Create role fail: %s", err)
 	} else if dbreq.Err != nil {
 		log.Errorf("Create role fail: %s", dbreq.Err)
