@@ -3,6 +3,8 @@ package game
 import (
 	"bear/com_ss_pb_proto"
 	"bear/db"
+	"bear/db/dbdata"
+	"bear/db/req"
 	"bear/msg"
 	"bear/msg/processor"
 
@@ -16,8 +18,9 @@ func handleCreateRole(args []interface{}) {
 
 	var uid uint32
 
-	dbreq := &db.Request{
-		Data: []interface{}{message.GetUname(), message.GetSex()},
+	dbreq := &req.Request{
+		Collection: db.Module.Collection(dbdata.COLLECTION_USERS),
+		Data:       []interface{}{message.GetUname(), message.GetSex()},
 	}
 	if err := db.Module.Request(db.CREATE_ROLE, dbreq); err != nil {
 		log.Errorf("Create role fail: %s", err)

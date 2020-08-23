@@ -3,6 +3,8 @@ package login
 import (
 	"bear/com_ss_pb_proto"
 	"bear/db"
+	"bear/db/dbdata"
+	"bear/db/req"
 	"bear/msg"
 	"bear/msg/processor"
 
@@ -21,8 +23,9 @@ func handleLogin(args []interface{}) {
 		Msg:   &com_ss_pb_proto.Sc_10010001{LoginResult: &res},
 	}
 
-	dbreq := db.Request{
-		Data: []interface{}{uid},
+	dbreq := req.Request{
+		Collection: db.Module.Collection(dbdata.COLLECTION_USERS),
+		Data:       []interface{}{uid},
 	}
 	if err := db.Module.Request(db.GET_LOGIN_DATA, &dbreq); err != nil {
 		log.Error("Login fail: %s", err)

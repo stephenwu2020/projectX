@@ -3,6 +3,7 @@ package db
 import (
 	"bear/base"
 	"bear/db/conf"
+	"bear/db/req"
 	"context"
 	"time"
 
@@ -25,6 +26,10 @@ func NewDBModule() *DBModule {
 	}
 }
 
+/**
+***	Lifecycle methods
+**/
+
 func (m *DBModule) OnInit() {
 	if err := m.connect(); err != nil {
 		log.Fatal("Database connect fail: %s", err)
@@ -33,7 +38,7 @@ func (m *DBModule) OnInit() {
 		log.Fatal("Database ping fail: %s", err)
 	}
 	log.Info("Database connect success!")
-	register()
+	m.register()
 }
 
 func (m *DBModule) OnDestroy() {
@@ -43,15 +48,31 @@ func (m *DBModule) OnDestroy() {
 	log.Info("Database disconnected")
 }
 
+/**
+*** Public Methods
+**/
+
 func (m *DBModule) Ping() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 	return m.client.Ping(ctx, readpref.Primary())
 }
 
-func (m *DBModule) Request(msgtype string, dbreq *Request) error {
+func (m *DBModule) Request(msgtype string, dbreq *req.Request) error {
 	return m.ChanRPCServer.Call0(msgtype, dbreq)
 }
+
+func (m *DBModule) DB() *mongo.Database {
+	return m.client.Database(conf.DBName)
+}
+
+func (m *DBModule) Collection(name string, opt ...*options.CollectionOptions) *mongo.Collection {
+	return m.client.Database(conf.DBName).Collection(name, opt...)
+}
+
+/**
+*** Private Methods
+**/
 
 func (m *DBModule) connect() error {
 	var err error
@@ -73,4 +94,24 @@ func (m *DBModule) disconnect() error {
 		return errors.WithMessage(err, "Disconnect mongodb failed")
 	}
 	return nil
+}
+
+func (m *DBModule) register() {
+	for _, reqhandler := range requests {
+		m.setreq(reqhandler.msgtype, reqhandler.handler)
+	}
+}
+
+func (m *DBModule) setreq(msgtype string, handler func(*req.Request)) {
+	fn := func(args []interface{}) {
+		dbreq, ok := args[0].(*req.Request)
+		if !ok {
+			panic(errors.New("Assert db request fail"))
+		}
+		if dbreq.Collection == nil {
+			panic(errors.New("Collection not set"))
+		}
+		handler(dbreq)
+	}
+	m.RegisterChanRPC(msgtype, fn)
 }
