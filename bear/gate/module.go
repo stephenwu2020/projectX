@@ -27,12 +27,12 @@ func (m *GateModule) OnInit() {
 		LenMsgLen:       conf.LenMsgLen,
 		LittleEndian:    conf.LittleEndian,
 		Processor:       msg.Processor,
-		AgentChanRPC:    game.Module.ChanRPCServer,
+		AgentChanRPC:    login.Module.ChanRPCServer,
 	}
 	m.route()
 }
 
 func (m *GateModule) route() {
-	msg.Processor.SetRouter(&com_ss_pb_proto.Cs_10010001{}, login.ChanRPC)
+	msg.Processor.SetRouter(&com_ss_pb_proto.Cs_10010001{}, login.Module.ChanRPCServer)
 	msg.Processor.SetRouter(&com_ss_pb_proto.Cs_10010002{}, game.Module.ChanRPCServer)
 }

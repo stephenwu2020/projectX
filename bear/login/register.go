@@ -6,16 +6,17 @@ import (
 )
 
 func setMsghandler(msg interface{}, handler interface{}) {
-	skeleton.RegisterChanRPC(reflect.TypeOf(msg), handler)
+	Module.RegisterChanRPC(reflect.TypeOf(msg), handler)
 }
 
 func regiser() {
-	skeleton.RegisterChanRPC("NewAgent", newAgent)
-	skeleton.RegisterChanRPC("CloseAgent", closeAgent)
+	Module.RegisterChanRPC("NewAgent", newAgent)
+	Module.RegisterChanRPC("CloseAgent", closeAgent)
 
 	setMsghandler(&com_ss_pb_proto.Cs_10010001{}, handleLogin)
 }
 
+// event fire at connection establish
 func newAgent(args []interface{}) {
 
 }
