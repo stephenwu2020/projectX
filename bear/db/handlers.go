@@ -32,14 +32,16 @@ func getLoginData(dbreq *Request) {
 	dbreq.Result = &result
 }
 
-func createRole(args []interface{}) []interface{} {
-	username, ok := args[0].(string)
+func createRole(dbreq *Request) {
+	username, ok := dbreq.Data[0].(string)
 	if !ok {
-		return []interface{}{nil, errors.New("username assertion fail")}
+		dbreq.Err = errors.New("Assert username faid")
+		return
 	}
-	sex, ok := args[1].(uint32)
+	sex, ok := dbreq.Data[1].(uint32)
 	if !ok {
-		return []interface{}{nil, errors.New("sex assertion fail")}
+		dbreq.Err = errors.New("Assert sex faid")
+		return
 	}
 	collections := Module.client.Database(conf.DBName).Collection(collections.COLLECTION_USERS)
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
@@ -47,9 +49,9 @@ func createRole(args []interface{}) []interface{} {
 
 	uid := uuid.New().ID()
 
-	_, err := collections.InsertOne(ctx, bson.M{"uid": uid, "name": username, "sex": sex})
-	if err != nil {
-		return []interface{}{nil, errors.WithMessage(err, "insert users fail")}
+	if _, err := collections.InsertOne(ctx, bson.M{"uid": uid, "name": username, "sex": sex}); err != nil {
+		dbreq.Err = errors.WithMessage(err, "insert users fail")
 	}
-	return []interface{}{uid, nil}
+
+	dbreq.Result = uid
 }
